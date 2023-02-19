@@ -1,9 +1,16 @@
 from openpyxl import load_workbook
 from collections import OrderedDict
+from dotenv import load_dotenv
 import json
+import os
+
+load_dotenv(verbose=True)
+
+path = os.getenv("PATH")
+
 
 # data_only=True로 해줘야 수식이 아닌 값으로 받아온다. 
-load_wb = load_workbook("/Users/dorong/Programming/Python/notion_api_wordbook/3000words.xlsx", data_only=True)
+load_wb = load_workbook(f"{path}/3000words.xlsx", data_only=True)
 # 시트 이름으로 불러오기 
 load_ws = load_wb['Sheet1']
 
@@ -25,5 +32,5 @@ for row in range(1, max_row + 1):
             data[c3] = load_ws.cell(row, col).value
     data_list.append(data)
 
-with open("/Users/dorong/Programming/Python/notion_api_wordbook/new_word.json", "w", encoding="utf-8") as f:
+with open(f"{path}/db.json", "w", encoding="utf-8") as f:
     json.dump(data_list, f, indent=4, ensure_ascii=False, default=str)
